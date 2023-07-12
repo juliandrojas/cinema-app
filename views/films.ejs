@@ -1,0 +1,72 @@
+<%- include('./partials/header.ejs') %>
+  <%- include('./partials/navbar.ejs') %>
+    <div class="container">
+      <h1 class="text-center">Nuestra selección de películas: </h1>
+      <form>
+        <div class="form-group">
+          <input type="text" class="form-control" id="searchFilm" aria-describedby="searchFilm"
+            placeholder="Filtrar por título">
+          <small id="textHelp" class="form-text text-muted">Filtrar por título</small>
+        </div>
+        <button type="submit" id="btn-search-film" class="btn btn-primary btn-block">Buscar</button>
+        <br>
+        <div class="container row-cols-1 row-cols-md-2">
+          <div id="films-grid"></div>
+        </div>
+      </form>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        //Capturamos primero el elemento del campo de búsqueda
+        const searchFilmField = document.querySelector("#searchFilm");
+        //Luego capturamos el evento click del botón de búsqueda
+        const searchFilmButton = document.querySelector("#btn-search-film");
+        searchFilmButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          const searchQuery = searchFilmField.value;
+          if (searchQuery === "") {
+            alert("El campo de búsqueda de películas no puede estar vacío");
+          } else {
+            // Vaciar el campo de búsqueda después de hacer clic en el botón
+            searchFilmField.value = "";
+            getPeliculas(searchQuery);
+          }
+        });
+      });
+
+      function getPeliculas(searchQuery) {
+        const urlPelicula = `http://www.omdbapi.com/?apikey=dd664a24&s=${searchQuery}`;
+        fetch(urlPelicula)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            renderingPelicula(data.Search);
+          })
+          .catch((error) => {
+            console.error("Error al obtener las películas:", error);
+          });
+      }
+
+      function renderingPelicula(peliculas) {
+        const movies = document.querySelector("#films-grid");
+        let html = "";
+        peliculas.forEach((pelicula) => {
+          const { Title, Poster, Year } = pelicula;
+          html += `
+          <div class="col mb-4">
+            <div class="card">
+              <img src="${Poster}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">${Title}</h5>
+                <p class="card-text">${Year}</p>
+              </div>
+            </div>
+          </div>
+    `;
+        });
+
+        movies.innerHTML = html;
+      }
+
+    </script>
+    <%- include('./partials/footer.ejs') %>
