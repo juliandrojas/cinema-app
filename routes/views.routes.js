@@ -1,12 +1,15 @@
-import { Router } from "express";
-import { renderBuyTickets, renderFilms, renderIndex, renderSchedules, renderTickets } from '../controllers/views.controller.js';
+import { renderBuyTickets, renderFilms, renderIndex, renderSchedules, renderTickets, renderDashboard } from '../controllers/views.controller.js';
+import { requireAuthRedirect } from '../controllers/authMiddleware.js';
+import { Router } from 'express';
+
 const router = Router();
-//Routes
+
+// Routes
 router.get('/', renderIndex);
 router.get('/films', renderFilms);
-router.get('/schedules', renderSchedules)
-router.get('/tickets', renderTickets)
-router.get('/tickets/buy', renderBuyTickets)
+router.get('/schedules', renderSchedules);
+router.get('/tickets/login', renderTickets);
+router.post('/tickets/dashboard', requireAuthRedirect, renderDashboard);
 /*
 router.get('/usuarios/:id', getUsuarioById);
 router.get('/usuarios/:correo/:contrasena', getUsuarioByCredentials);

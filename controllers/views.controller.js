@@ -23,6 +23,11 @@ export const renderTickets = (req, res) => {
     res.render('tickets.ejs', {title: 'Cinema App'});
     res.status(200)
 }
+export const renderDashboard = (req, res) => {
+    console.log("Renderizando vista de dashboard")
+    res.render('dashboard.ejs');
+    res.status(200)
+}
 export const renderBuyTickets = (req, res) => {
     res.render('buyTickets.ejs', {title: 'Cinema App'});
     res.status(200)
