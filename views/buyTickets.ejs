@@ -15,7 +15,8 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="validationCustom02">Correo</label>
-                        <input type="email" class="form-control" id="validationCustom02" value="user@email.com" required>
+                        <input type="email" class="form-control" id="validationCustom02" value="user@email.com"
+                            required>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
@@ -39,6 +40,34 @@
                             Please select a valid state.
                         </div>
                     </div>
+                    <script>
+                        // Función para obtener los datos de la API
+                        async function fetchState() {
+                            const urlPeliculas = 'http://www.omdbapi.com/?i=tt3896198&apikey=dd664a24&s=Superman';
+                            try {
+                                const response = await fetch(urlPeliculas);
+                                const data = await response.json();
+                                const peliculas = data.Search; // El resultado de la API está en data.Search
+
+                                // Obtener el elemento select del DOM
+                                const selectElement = document.getElementById("validationCustom04");
+
+                                // Iterar sobre las películas recibidas y agregar opciones al elemento select
+                                peliculas.forEach((pelicula) => {
+                                    const { Title } = pelicula;
+                                    const option = document.createElement('option');
+                                    option.value = Title; // Aquí se debe establecer el valor y el texto como el título de la película
+                                    option.textContent = Title;
+                                    selectElement.appendChild(option);
+                                });
+                            } catch (error) {
+                                console.error('Error al obtener los datos de la API:', error);
+                            }
+                        }
+
+                        // Ejecutar la función fetchState después de que el DOM esté completamente cargado
+                        document.addEventListener("DOMContentLoaded", fetchState);
+                    </script>
                     <div class="col-md-3 mb-3">
                         <label for="validationCustom05">Zip</label>
                         <input type="text" class="form-control" id="validationCustom05" required>

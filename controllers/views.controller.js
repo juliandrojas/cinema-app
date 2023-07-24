@@ -1,6 +1,10 @@
+import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import path from 'path';
+import '../database.js';
+//Importamos el modelo
+import User from '../models/user.model.js';
+
+//Importamos la conexión 
 export const renderIndex = (req, res) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
@@ -23,12 +27,44 @@ export const renderTickets = (req, res) => {
     res.render('tickets.ejs', {title: 'Cinema App'});
     res.status(200)
 }
-export const renderDashboard = (req, res) => {
-    console.log("Renderizando vista de dashboard")
-    res.render('dashboard.ejs');
-    res.status(200)
+export const renderDashboard = async (req, res) => {
+    // Obtenemos los datos enviados desde el formulario
+    const { nombre, correo, contrasena } = req.body;
+    try {
+        // Buscar al usuario por su correo electrónico en la base de datos
+        const usuarioExistente = await User.findOne({ correo: correo });
+        if (usuarioExistente) {
+            // Si el usuario ya existe, mostramos un alert y redirigimos al dashboard
+            return res.render('dashboard.ejs', { nombre: nombre });
+        } else {
+            // Si el usuario no existe, lo registramos en la base de datos
+            const nuevoUsuario = new User({
+                nombre: nombre,
+                correo: correo,
+                contrasena: contrasena,
+            });
+
+            // Guardar el nuevo usuario en la base de datos
+            await nuevoUsuario.save();
+            console.log('Usuario registrado:', nuevoUsuario);
+
+            //Renderizamos el dashboard al registrar el usuario
+            return res.render('dashboard.ejs', { nombre: nombre });
+        }
+    } catch (error) {
+        console.error('Error al registrar el usuario:', error);
+        return res.status(500).send('Error al registrar el usuario');
+    }
+}
+
+export const showDashboard = (req, res) => {
+    // Aquí puedes incluir cualquier lógica adicional antes de renderizar la vista del dashboard
+    return res.render('dashboard.ejs', { nombre: req.body.nombre });
 }
 export const renderBuyTickets = (req, res) => {
     res.render('buyTickets.ejs', {title: 'Cinema App'});
     res.status(200)
+}
+export const unauthorizedAccess = (req, res) => {
+    return res.render('unauthorizedAccess.ejs')
 }

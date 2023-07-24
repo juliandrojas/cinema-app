@@ -1,14 +1,19 @@
+import bodyParser from 'body-parser';
 import express from 'express';
-import vistasRoutes from './routes/views.routes.js';
+import session from 'express-session';
 import morgan from 'morgan';
 import path from 'path';
-import session from 'express-session';
+import vistasRoutes from './routes/views.routes.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(morgan('dev'));
 
+//Servimos archivos estáticos
+app.use(express.static('public'));
+//Configuramos bodyparser
+app.use(bodyParser.urlencoded({ extended: true }));
 // Configuramos session
 app.use(
   session({

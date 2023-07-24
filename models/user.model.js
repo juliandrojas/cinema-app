@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-//Creamos el esquema del producto
+
 const userSchema = new Schema({
     nombre: {
         type: String,
@@ -18,4 +18,10 @@ const userSchema = new Schema({
         default: Date.now
     }
 });
+
+userSchema.virtual('fechaRegistroFormatted').get(function () {
+    // Obtiene la fecha en formato ISO y luego extrae solo la parte de la fecha (año, mes y día)
+    return this.fechaRegistro.toISOString().split('T')[0];
+});
+
 export default model('User', userSchema);

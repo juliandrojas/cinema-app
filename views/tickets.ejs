@@ -3,21 +3,25 @@
         <h1 class="text-center">Sección de Tickets</h1>
         <div class="container">
             <p class="text-center">Ingresa con tu nombre, correo y contraseña para comprar y gestionar tus tickets.</p>
-            <form action="/tickets/dashboard" method="post">
-                <div class="form-group">
-                    <label for="Name">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" aria-describedby="nameHelp" placeholder="Ingresa tu nombre">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/tickets/dashboard" method="post">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" aria-describedby="nameHelp" placeholder="Ingresa tu nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="correo">Correo</label>
+                            <input type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Ingresa tu correo">
+                        </div>
+                        <div class="form-group">
+                            <label for="contraseña">Contraseña</label>
+                            <input type="password" class="form-control" name="contrasena" placeholder="Ingresa tu contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="Email">Correo</label>
-                    <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" placeholder="Ingresa tu correo">
-                </div>
-                <div class="form-group">
-                    <label for="Password">Contraseña</label>
-                    <input type="password" class="form-control" id="contraseña" placeholder="Ingresa tu contraseña">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-            </form>
+            </div>            
         </div>
-        <br><br><br><br><br>
+        <br><br><br><br>
         <%- include('./partials/footer.ejs') %>
