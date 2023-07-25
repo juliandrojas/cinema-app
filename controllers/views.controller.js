@@ -65,6 +65,9 @@ export const renderBuyTickets = (req, res) => {
     res.render('buyTickets.ejs', {title: 'Cinema App'});
     res.status(200)
 }
+export const manageTickets = (req, res) => {
+    return res.status(500).send('Manage Tickets')
+}
 export const unauthorizedAccess = (req, res) => {
     return res.render('unauthorizedAccess.ejs')
 }
