@@ -1,6 +1,12 @@
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-mongoose.connect("mongodb+srv://admin:admin@tickets.qtxni89.mongodb.net/clients?retryWrites=true&w=majority", {
+// Cargamos las variables de entorno desde el archivo .env
+dotenv.config();
+
+const mongodbUri = process.env.MONGODB_URI;
+
+mongoose.connect(mongodbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(db => console.log('Db is connected')).catch(error => console.error(error));
