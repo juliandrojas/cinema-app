@@ -34,8 +34,9 @@ export const renderDashboard = async (req, res) => {
         // Buscar al usuario por su correo electrónico en la base de datos
         const usuarioExistente = await User.findOne({ correo: correo });
         if (usuarioExistente) {
-            // Si el usuario ya existe, mostramos un alert y redirigimos al dashboard
-            return res.render('dashboard.ejs', { nombre: nombre });
+            // Si el usuario ya existe, redirigimos al dashboard con el nombre de usuario y el correo en la URL
+            return res.redirect(`/dashboard?username={username}&email={email}`)
+            //return res.render('dashboard.ejs', { nombre: nombre });
         } else {
             // Si el usuario no existe, lo registramos en la base de datos
             const nuevoUsuario = new User({
@@ -59,10 +60,10 @@ export const renderDashboard = async (req, res) => {
 
 export const showDashboard = (req, res) => {
     // Aquí puedes incluir cualquier lógica adicional antes de renderizar la vista del dashboard
-    return res.render('dashboard.ejs', { nombre: req.body.nombre });
+    return res.render('dashboard.ejs', { nombre: req.body.nombre, correo: req.body.correo });
 }
 export const renderBuyTickets = (req, res) => {
-    res.render('buyTickets.ejs', {title: 'Cinema App'});
+    res.render('buyTickets.ejs', {title: 'Cinema App', nombre: req.body.nombre, correo: req.body.correo});
     res.status(200)
 }
 export const manageTickets = (req, res) => {
