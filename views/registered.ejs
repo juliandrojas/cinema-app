@@ -1,0 +1,17 @@
+<!-- registered.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Usuario registrado</title>
+</head>
+<body>
+  <!-- Script para mostrar el alert y redirigir después de unos segundos -->
+  <script>
+    alert('El usuario ha sido registrado'); // Muestra el alert
+    setTimeout(function() {
+      window.location.href = '/tickets/login'; // Redirige al usuario al login después de 3 segundos (3000 ms)
+    }, 3000); // Cambia el tiempo según tus preferencias (en milisegundos)
+  </script>
+</body>
+</html>

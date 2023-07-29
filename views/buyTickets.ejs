@@ -4,19 +4,18 @@
         <div class="container">
             <p class="text-center">Bienvenido a la sección de compra de tickets.</p>
             <p class="text-center">Completa el siguiente formulario para comprar tus tickets.</p>
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" novalidate action="/comprar-entradas" method="post">
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label for="validationCustom01">Nombre</label>
-                        <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+                        <input type="text" class="form-control" id="validationCustom01" value="<%= nombre %>" readonly>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="validationCustom02">Correo</label>
-                        <input type="email" class="form-control" id="validationCustom02" value="user@email.com"
-                            required>
+                        <input type="email" class="form-control" id="validationCustom02" value="<%= correo %>" readonly>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
@@ -114,7 +113,7 @@
             <br>
             <div class="row">
                 <div class="col-md-6">
-                    <a href="/tickets" class="btn btn-primary btn-block">Volver atrás</a>
+                    <a href="/tickets/login" class="btn btn-primary btn-block">Salir</a>
                 </div>
                 <div class="col-md-6">
                     <a href="/tickets/dashboard/manage" class="btn btn-primary btn-block">Gestionar tickets</a>

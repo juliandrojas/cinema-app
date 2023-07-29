@@ -1,0 +1,20 @@
+<!-- welcome.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bienvenido</title>
+</head>
+<body>
+  <!-- Script para mostrar el alert y redirigir después de unos segundos -->
+  <script>
+    alert('Bienvenido, <%= nombre %>!'); // Muestra el alert con el nombre del usuario
+    setTimeout(function() {
+      const nombre = '<%= encodeURIComponent(nombre) %>';
+      const correo = '<%= encodeURIComponent(correo) %>';
+      const url = `/tickets/buy/${nombre}/${correo}`; // Construir la URL completa con los valores codificados
+      window.location.href = url; // Redirige al usuario a la vista de compras después de 3 segundos (3000 ms)
+    }, 3000); // Cambia el tiempo según tus preferencias (en milisegundos)
+  </script>
+</body>
+</html>

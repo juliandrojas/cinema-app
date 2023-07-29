@@ -1,10 +1,9 @@
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import '../database.js';
 //Importamos el modelo
 import User from '../models/user.model.js';
-
 //Importamos la conexión 
+import '../database.js';
 export const renderIndex = (req, res) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
@@ -23,10 +22,46 @@ export const renderSchedules = (req, res) => {
     res.render('schedules.ejs', {title: 'Cinema App'});
     res.status(200)
 }
-export const renderTickets = (req, res) => {
-    res.render('tickets.ejs', {title: 'Cinema App'});
+export const renderLogin = (req, res) => {
+    res.render('login.ejs', {title: 'Cinema App'});
     res.status(200)
 }
+export const renderDashboard = async (req, res) => {
+    const { nombre, correo, contrasena } = req.body;
+    console.log(nombre);
+    console.log(correo);
+    console.log(contrasena);
+    try {
+        const usuarioExistente = await User.findOne({ correo: correo });
+
+        if (usuarioExistente) {
+            // Si el usuario ya existe, mostramos un alert y luego redirigimos a la vista de compras
+            res.render('welcome.ejs', { nombre: nombre, correo: correo, contrasena: contrasena }); // Renderizar la vista welcome.ejs
+        } else {
+            const nuevoUsuario = new User({
+                nombre: nombre,
+                correo: correo,
+                contrasena: contrasena, // Asegúrate de definir la variable "contrasena" antes de utilizarla aquí
+            });
+
+            await nuevoUsuario.save();
+            console.log('Usuario registrado:', nuevoUsuario);
+
+            // Mostramos un alert y luego redirigimos al login
+            res.render('registered.ejs'); // Renderizar la vista registered.ejs
+        }
+    } catch (error) {
+        console.error('Error al registrar el usuario:', error);
+        return res.status(500).send('Error al registrar el usuario');
+    }
+};
+
+// Ruta para la vista de compras
+export const renderBuyTickets = (req, res) => {
+    const { nombre, correo } = req.params;
+    res.render('buyTickets.ejs', { title: 'Cinema App', nombre: nombre, correo: correo });
+}
+/*
 export const renderDashboard = async (req, res) => {
     // Obtenemos los datos enviados desde el formulario
     const { nombre, correo, contrasena } = req.body;
@@ -62,10 +97,12 @@ export const showDashboard = (req, res) => {
     // Aquí puedes incluir cualquier lógica adicional antes de renderizar la vista del dashboard
     return res.render('dashboard.ejs', { nombre: req.body.nombre, correo: req.body.correo });
 }
-export const renderBuyTickets = (req, res) => {
-    res.render('buyTickets.ejs', {title: 'Cinema App', nombre: req.body.nombre, correo: req.body.correo});
-    res.status(200)
-}
+*/
+// export const renderBuyTickets = (req, res) => {
+//     const { nombre, correo } = req.params;
+//     res.render('buyTickets.ejs', {title: 'Cinema App', nombre: req.body.nombre, correo: req.body.correo});
+//     res.status(200)
+// }
 export const manageTickets = (req, res) => {
     return res.status(500).send('Manage Tickets')
 }
