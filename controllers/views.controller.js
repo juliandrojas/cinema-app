@@ -70,7 +70,9 @@ export const buyProcess = (req, res) => {
         pelicula," ",
         horario," ",
         personas," ");
-    res.json("Datos recuperados")
+    if(personas > 1) {
+        res.render('generateTickets.ejs');
+    }
 }
 export const unauthorizedAccess = (req, res) => {
     return res.render('unauthorizedAccess.ejs')

@@ -1,0 +1,69 @@
+<%- include('./partials/header.ejs') %>
+    <%- include('./partials/navbar.ejs') %>
+    <style>
+        .seat {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            background-color: green;
+            cursor: pointer;
+        }
+
+        .occupied {
+            background-color: red;
+            cursor: not-allowed;
+        }
+    </style>
+    <h1 class="text-center">Sala de Cine</h1>
+    <div class="container">
+        <p class="text-center">Haz clic en un asiento para reservarlo.</p>
+        <div id="seats-container" class="d-flex flex-wrap justify-content-center">
+            <!-- Aquí se generarán los asientos dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        // Definimos el número de filas y columnas en la sala de cine
+        const numRows = 5;
+        const numCols = 8;
+
+        // Creamos una matriz para representar los asientos y los inicializamos como disponibles
+        const seats = new Array(numRows).fill(null).map(() => new Array(numCols).fill('available'));
+
+        // Función para generar la representación visual de los asientos en la sala de cine
+        function renderSeats() {
+            const seatsContainer = document.getElementById('seats-container');
+            seatsContainer.innerHTML = '';
+
+            for (let i = 0; i < numRows; i++) {
+                for (let j = 0; j < numCols; j++) {
+                    const seatDiv = document.createElement('div');
+                    seatDiv.classList.add('seat');
+
+                    if (seats[i][j] === 'occupied') {
+                        seatDiv.classList.add('occupied');
+                        seatDiv.textContent = 'X';
+                    }
+
+                    seatDiv.addEventListener('click', () => reserveSeat(i, j));
+                    seatsContainer.appendChild(seatDiv);
+                }
+            }
+        }
+
+        // Función para reservar un asiento
+        function reserveSeat(row, col) {
+            if (seats[row][col] === 'available') {
+                seats[row][col] = 'occupied';
+                renderSeats();
+                alert(`Has reservado el asiento en la fila ${row + 1}, columna ${col + 1}.`);
+            } else {
+                alert('Este asiento ya está ocupado. Por favor, elige otro.');
+            }
+        }
+
+        // Inicializamos la representación visual de los asientos
+        renderSeats();
+    </script>
+    <a href="/tickets/buy/:nombre/:correo" class="btn btn-primary btn-block">Volver Atrás</a>
+<%- include('./partials/footer.ejs') %>
